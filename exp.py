@@ -155,7 +155,7 @@ def tab1():
             tab1()
 
         def TrackImages():
-            recognizer = cv2.face.LBPHFaceRecognizer_create()#cv2.createLBPHFaceRecognizer()
+            recognizer = cv2.face.LBPHFaceRecognizer_create()
             recognizer.read("TrainingImageLabel\Trainner.yml")
             harcascadePath = "haarcascade_frontalface_default.xml"
             faceCascade = cv2.CascadeClassifier(harcascadePath);    
