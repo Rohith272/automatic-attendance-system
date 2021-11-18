@@ -9,7 +9,7 @@ import pandas as pd
 import datetime
 import time
 from tkinter import messagebox
-
+from csv import writer
 
 
 root=Tk()
@@ -178,6 +178,7 @@ def tab1():
                         aa=df.loc[df['Id'] == Id]['Name'].values
                         tt=str(Id)+"-"+aa
                         attendance.loc[len(attendance)] = [Id,aa,date,timeStamp]
+                        atd = [Id,aa[0],date,timeStamp]
                 
                     else:
                         Id='Unknown'                
@@ -194,8 +195,10 @@ def tab1():
             date = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
             timeStamp = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
             Hour,Minute,Second=timeStamp.split(":")
-            fileName="Attendance\Attendance_"+date+"_"+Hour+"-"+Minute+"-"+Second+".csv"
-            attendance.to_csv(fileName,index=False)
+            with open('attend.csv', 'a') as f_object:
+                writer_object = writer(f_object)
+                writer_object.writerow(atd)
+                f_object.close()
             cam.release()
             cv2.destroyAllWindows()
     
