@@ -10,6 +10,7 @@ import datetime
 import time
 from tkinter import messagebox
 from csv import writer
+from pandas import *
 
 
 root=Tk()
@@ -191,16 +192,23 @@ def tab1():
                 cv2.imshow('im',im) 
                 if (cv2.waitKey(1)==ord('q')):
                     break
-            ts = time.time()      
-            date = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
-            timeStamp = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
-            Hour,Minute,Second=timeStamp.split(":")
-            with open('attend.csv', 'a') as f_object:
-                writer_object = writer(f_object)
-                writer_object.writerow(atd)
-                f_object.close()
-            cam.release()
-            cv2.destroyAllWindows()
+            
+            data = read_csv("attend.csv")
+            Id1 = data['Id'].tolist()
+            
+            if (Id in Id1):
+                messagebox.showinfo("Already exists")
+            else:
+                ts = time.time()      
+                date = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
+                timeStamp = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
+                Hour,Minute,Second=timeStamp.split(":")
+                with open('attend.csv', 'a') as f_object:
+                    writer_object = writer(f_object)
+                    writer_object.writerow(atd)
+                    f_object.close()
+                cam.release()
+                cv2.destroyAllWindows()
     
         def quit_window():
             MsgBox = messagebox.askquestion ('Exit Application','Are you sure you want to exit the application',icon = 'warning')
